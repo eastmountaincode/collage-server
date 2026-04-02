@@ -65,7 +65,7 @@ function setupWebSocket(server) {
         }
 
         case 'uploaded': {
-          state.addImage(msg.id, msg.width, msg.height);
+          state.addImage(msg.id, msg.width, msg.height, msg.x || 0, msg.y || 0);
           broadcast(msg, ws);
           break;
         }

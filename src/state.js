@@ -38,12 +38,12 @@ function getAll() {
   return Array.from(images.values());
 }
 
-function addImage(id, width, height) {
+function addImage(id, width, height, x = 0, y = 0) {
   let maxZ = -1;
   for (const img of images.values()) {
     if (img.zIndex > maxZ) maxZ = img.zIndex;
   }
-  const image = { id, x: 0, y: 0, width, height, rotation: 0, zIndex: maxZ + 1 };
+  const image = { id, x, y, width, height, rotation: 0, zIndex: maxZ + 1 };
   images.set(id, image);
   scheduleSave();
   return image;
