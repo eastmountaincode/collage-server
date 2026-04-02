@@ -24,6 +24,7 @@ function loadState() {
     if (fs.existsSync(STATE_FILE)) {
       const data = JSON.parse(fs.readFileSync(STATE_FILE, 'utf-8'));
       for (const img of data) {
+        if (img.rotation === undefined) img.rotation = 0;
         images.set(img.id, img);
       }
       console.log(`Loaded ${images.size} images from state.json`);
@@ -42,7 +43,7 @@ function addImage(id, width, height) {
   for (const img of images.values()) {
     if (img.zIndex > maxZ) maxZ = img.zIndex;
   }
-  const image = { id, x: 0, y: 0, width, height, zIndex: maxZ + 1 };
+  const image = { id, x: 0, y: 0, width, height, rotation: 0, zIndex: maxZ + 1 };
   images.set(id, image);
   scheduleSave();
   return image;
@@ -64,6 +65,18 @@ function updateSize(id, x, y, width, height) {
   img.y = y;
   img.width = width;
   img.height = height;
+  scheduleSave();
+  return img;
+}
+
+function updateTransform(id, x, y, width, height, rotation) {
+  const img = images.get(id);
+  if (!img) return null;
+  img.x = x;
+  img.y = y;
+  img.width = width;
+  img.height = height;
+  img.rotation = rotation;
   scheduleSave();
   return img;
 }
@@ -140,6 +153,7 @@ module.exports = {
   addImage,
   updatePosition,
   updateSize,
+  updateTransform,
   removeImage,
   removeAll,
   sendToFront,

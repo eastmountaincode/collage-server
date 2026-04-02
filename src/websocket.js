@@ -58,6 +58,12 @@ function setupWebSocket(server) {
           break;
         }
 
+        case 'transform': {
+          state.updateTransform(msg.id, msg.x, msg.y, msg.width, msg.height, msg.rotation);
+          broadcast(msg, ws);
+          break;
+        }
+
         case 'uploaded': {
           state.addImage(msg.id, msg.width, msg.height);
           broadcast(msg, ws);
