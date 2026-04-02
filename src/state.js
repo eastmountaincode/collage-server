@@ -147,6 +147,13 @@ function compactZIndexes() {
   });
 }
 
+function setLocked(id, locked) {
+  const img = images.get(id);
+  if (!img) return;
+  img.locked = locked;
+  scheduleSave();
+}
+
 module.exports = {
   loadState,
   getAll,
@@ -158,4 +165,5 @@ module.exports = {
   removeAll,
   sendToFront,
   sendToBack,
+  setLocked,
 };

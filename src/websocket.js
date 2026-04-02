@@ -93,6 +93,12 @@ function setupWebSocket(server) {
           broadcast({ type: 'toBack', id: msg.id }, ws);
           break;
         }
+
+        case 'lock': {
+          state.setLocked(msg.id, msg.locked);
+          broadcast(msg, ws);
+          break;
+        }
       }
     });
 
